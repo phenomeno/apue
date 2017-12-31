@@ -1,0 +1,11 @@
+c99 is the interface to the C compilation environment.
+Set the feature test macros (`_POSIX_C_SOURCE`, `_XOPEN_SOURCE`) to compile a program so that it only depends on the POSIX and XSI definitions.
+(700 is for Version 4 of the Single UNIX Specification (2008 edition of POSIX.1), 600 for Version 3 (2001 edition))
+```
+gcc -D_XOPEN_SOURCE=700 -std=c99 file.c -o file.out
+```
+
+to check conf without writing a C program:
+```
+getconf _POSIX_JOB_CONTROL
+```
