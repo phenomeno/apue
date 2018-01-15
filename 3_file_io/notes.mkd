@@ -1,0 +1,39 @@
+### to read the file with a hole:
+`od -c file.hole`
+
+### open file data structures
+kernel uses 3 different data structures:
+
+1. every process has an entry in the process table
+- file descriptor flags
+- file pointer
+
+2. file table for all open files
+- file status flags (O_RDWR, etc)
+- current file offset (LSEEK updates only this)
+- v-node pointer
+
+3. v-node table entry for each open file (linux uses generic i-node)
+- type of file
+- pointers to functions that operate on file
+- i-node pointer
+  - owner of file
+  - size of file
+  - pointers to data blocks and so on
+
+- can have two file table entries for the same file, opened by two different fds, by two different processes
+- both of these file table entries will share same v-node table entry
+- can have two fd entries point to the same file table entry (dup, fork functions. parent and child will share the same file table entry for each open descriptor)
+
+### O_ACCMODE flag mask
+https://stackoverflow.com/questions/24224845/flags-mask-read-and-write-posix
+
+
+### get_fl.c usage
+```
+./a.out 0 < file (stdin from file)
+./a.out 1 > file (stdout to file)
+cat file
+./a.out 2 2>>file (appends to file on file descriptor 2)
+./a.out 5 5<>file (opens file for r/w on file descriptor 5)
+```
